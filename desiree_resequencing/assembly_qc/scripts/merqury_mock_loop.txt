@@ -1,0 +1,188 @@
+#run 38 12 hifiasm p_ctg ALL HAPLOTYPES
+assembly1=/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap_all.p_ctg.fa
+assembly2=
+out_name=12_p_ctg_hap_all
+#_____________________________________________________________________________________________________________________
+
+# run 39 12 hifiasm p_ctg HAP1
+assembly1=/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap1.p_ctg.fa
+assembly2=
+out_name=12_p_ctg_hap1
+#_____________________________________________________________________________________________________________________
+# run 40 12 hifiasm p_ctg HAP2
+assembly1=/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap2.p_ctg.fa
+assembly2=
+out_name=12_p_ctg_hap2
+#_____________________________________________________________________________________________________________________
+# run 41 12 hifiasm p_ctg HAP3
+assembly1=/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap3.p_ctg.fa
+assembly2=
+out_name=12_p_ctg_hap3
+#_____________________________________________________________________________________________________________________
+# run 42 12 hifiasm p_ctg HAP4
+assembly1=/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap4.p_ctg.fa
+assembly2=
+out_name=12_p_ctg_hap4
+
+#poskus loopa, kjer bo za vse haplotipe naredil potreben analysis
+ASMS1=(
+  "/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap_all.p_ctg.fa"  
+  "/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap1.p_ctg.fa"
+  "/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap2.p_ctg.fa"
+  "/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap3.p_ctg.fa"
+  "/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap4.p_ctg.fa"
+)
+ASMS2=( "" "" "" "" "" )
+NAMES=( "12_p_ctg_hap_all" "12_p_ctg_hap1" "12_p_ctg_hap2" "12_p_ctg_hap3" "12_p_ctg_hap4" )
+
+# semi-fixed variables
+meryl_db=/scratch/timg/desiree_asm/meryl/desiree_illumina_raw.meryl
+out_base=/scratch/evakrzisnik/desiree_resequencing/assembly_qc/outputs/loop
+maxcov=200
+maxcount=15000000
+threads=8
+#_____________________________________________________________________________________________________________________
+### CODE
+#set threads
+OMP_NUM_THREADS=$threads
+export OMP_NUM_THREADS
+
+# comparing two assemblies
+
+
+out_dir=$out_base/$out_name
+mkdir $out_dir
+# merqury does not recognize path as output dir so you have to cd inside
+cd $out_dir
+conda activate merqury
+merqury.sh $meryl_db \
+    $assembly1 \
+    $assembly2 \
+    merqury > \
+    merqury_$out_name.log
+
+for i in $(basename -s .qv "$out_dir"/*.qv)
+ do
+  Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+  -f "$i".spectra-cn.hist \
+  -o "$i".spectra-cn \
+  -z "$i".only.hist \
+  -m $maxcov \
+  -n $maxcount
+ done
+
+
+Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+    -f merqury.spectra-asm.hist \
+    -o merqury.spectra-asm \
+    -z merqury.dist_only.hist \
+    -m $maxcov \
+    -n $maxcount
+
+
+
+conda deactivate
+
+# run 41 12 hifiasm p_ctg HAP3
+assembly1=/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap3.p_ctg.fa
+assembly2=
+out_name=12_p_ctg_hap3
+
+meryl_db=/scratch/timg/desiree_asm/meryl/desiree_illumina_raw.meryl
+out_base=/scratch/evakrzisnik/desiree_resequencing/assembly_qc/outputs/loop
+maxcov=200
+maxcount=15000000
+threads=8
+#_____________________________________________________________________________________________________________________
+### CODE
+#set threads
+OMP_NUM_THREADS=$threads
+export OMP_NUM_THREADS
+
+# comparing two assemblies
+
+
+out_dir=$out_base/$out_name
+mkdir $out_dir
+# merqury does not recognize path as output dir so you have to cd inside
+cd $out_dir
+conda activate merqury
+merqury.sh $meryl_db \
+    $assembly1 \
+    $assembly2 \
+    merqury > \
+    merqury_$out_name.log
+
+for i in $(basename -s .qv "$out_dir"/*.qv)
+ do
+  Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+  -f "$i".spectra-cn.hist \
+  -o "$i".spectra-cn \
+  -z "$i".only.hist \
+  -m $maxcov \
+  -n $maxcount
+ done
+
+
+Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+    -f merqury.spectra-asm.hist \
+    -o merqury.spectra-asm \
+    -z merqury.dist_only.hist \
+    -m $maxcov \
+    -n $maxcount
+
+
+
+conda deactivate
+#_____________________________________________________________________________________________________________________
+# run 42 12 hifiasm p_ctg HAP4
+assembly1=/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap4.p_ctg.fa
+assembly2=
+out_name=12_p_ctg_hap4
+
+meryl_db=/scratch/timg/desiree_asm/meryl/desiree_illumina_raw.meryl
+out_base=/scratch/evakrzisnik/desiree_resequencing/assembly_qc/outputs/loop
+maxcov=200
+maxcount=15000000
+threads=8
+#_____________________________________________________________________________________________________________________
+### CODE
+#set threads
+OMP_NUM_THREADS=$threads
+export OMP_NUM_THREADS
+
+# comparing two assemblies
+
+
+out_dir=$out_base/$out_name
+mkdir $out_dir
+# merqury does not recognize path as output dir so you have to cd inside
+cd $out_dir
+conda activate merqury
+merqury.sh $meryl_db \
+    $assembly1 \
+    $assembly2 \
+    merqury > \
+    merqury_$out_name.log
+
+for i in $(basename -s .qv "$out_dir"/*.qv)
+ do
+  Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+  -f "$i".spectra-cn.hist \
+  -o "$i".spectra-cn \
+  -z "$i".only.hist \
+  -m $maxcov \
+  -n $maxcount
+ done
+
+
+Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+    -f merqury.spectra-asm.hist \
+    -o merqury.spectra-asm \
+    -z merqury.dist_only.hist \
+    -m $maxcov \
+    -n $maxcount
+
+
+
+conda deactivate
