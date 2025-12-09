@@ -1,0 +1,71 @@
+assemblies=(
+/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap_all.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap1.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap2.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap3.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/assembly/outputs/12/12.asm.hap4.p_ctg.fa
+)
+
+outdirs=(
+12_p_ctg_hap_all
+12_p_ctg_hap1
+12_p_ctg_hap2
+12_p_ctg_hap3
+12_p_ctg_hap4
+)
+
+# for i in {0..10}; do
+#     echo $i
+#     asm=${assemblies[$i]}
+#     out_name=${outdirs[$i]}
+#     echo "Processing $asm with output directory $out_name"
+# done
+
+for ((a=0; a<${#assemblies[@]}; a++)); do
+    asm=${assemblies[$a]}
+    out_name=${outdirs[$a]}
+    assembly2=
+
+    meryl_db=/scratch/timg/desiree_asm/meryl/desiree_illumina_raw.meryl
+    out_base=/scratch/evakrzisnik/desiree_resequencing/assembly_qc/outputs
+    out_dir=$out_base/$out_name
+    maxcov=200
+    maxcount=15000000
+    threads=8
+    #_____________________________________________________________________________________________________________________
+    ### CODE
+    #set threads
+    OMP_NUM_THREADS=$threads
+    export OMP_NUM_THREADS
+    # comparing two assemblies
+    mkdir -p $out_dir
+    # merqury does not recognize path as output dir so you have to cd inside
+    cd $out_dir
+    conda activate merqury
+    merqury.sh $meryl_db \
+        ${assemblies[$a]} \
+        $assembly2 \
+        merqury > \
+        merqury_$out_name.log
+
+    for i in $(basename -s .qv "$out_dir"/*.qv)
+    do
+    Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+    -f "$i".spectra-cn.hist \
+    -o "$i".spectra-cn \
+    -z "$i".only.hist \
+    -m $maxcov \
+    -n $maxcount
+    done
+
+    Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+        -f merqury.spectra-asm.hist \
+        -o merqury.spectra-asm \
+        -z merqury.dist_only.hist \
+        -m $maxcov \
+        -n $maxcount
+    conda deactivate
+
+
+    echo "Processing $asm with output directory $out_name"
+done

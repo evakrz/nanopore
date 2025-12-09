@@ -1,0 +1,81 @@
+
+input_filepath="/scratch/evakrzisnik/desiree_resequencing/reads_qc/inputs/library2.fastq"
+
+
+output_base="/DKED/scratch/evakrzisnik/desiree_resequencing/reads_qc/outputs"
+
+#nanoqc
+subfolder="nanoqc"
+output_path="$output_base"/"$subfolder"
+nanoQC "$input_filepath" -o "$output_path"
+
+
+#nanoget
+#subfolder="nanoget"
+#output_path="$output_base"/"$subfolder"
+#NanoGet --fastq "$input_filepath" > "${output_path}/nanoget_summary.txt"
+#nanoget ni tool, ampak library, tako da ga ne morem klicat
+
+#nanoplot
+subfolder="nanoplot"
+output_path="$output_base"/"$subfolder"
+NanoPlot --fastq "$input_filepath" -o "$output_path"
+
+#stari ont reads, primerjava z nanocomp
+#najprej qc in plot se s temi fajli
+#lokacija starih timovih readov
+#/scratch/timg/desiree_seq/input/ont/desiree_ont_raw.fastq
+
+#napravili softlink v mojem filesystemu
+oldreads_filepath="/scratch/timg/desiree_seq/input/ont/desiree_ont_raw.fastq"
+output_base="/scratch/evakrzisnik/desiree_resequencing/reads_qc/outputs"
+
+#za stare reade bomo izvedli enake analize kot za moje
+subfolder="nanoqc_oldreads"
+output_path="$output_base"/"$subfolder"
+nanoQC "$oldreads_filepath" -o "$output_path"
+
+subfolder="nanoplot_oldreads"
+output_path="$output_base"/"$subfolder"
+NanoPlot --fastq "$oldreads_filepath" -o "$output_path"
+
+
+#za moje reade bomo porezali prvih 20 bp in zadnjih 5 zaradi quality scorea 
+#na prvem reportu za library2 in shranili v chopper podmapo v outputih
+#bomo dodali še minscore 10 
+#zbriši vse kar je do zdaj chopped in se enkrat pozeni vse skupaj s scorom
+#nanocomp primerjava starih readov in teh chopped
+input_filepath="/scratch/evakrzisnik/desiree_resequencing/reads_qc/inputs/library2.fastq"
+
+chopper \
+  --trim-approach fixed-crop \
+  --cutoff 10 \
+  --headcrop 20 \
+  --tailcrop 5 \
+  -t 8 \
+  -i $input_filepath \
+  > /scratch/evakrzisnik/desiree_resequencing/reads_qc/outputs/chopper/library2.fixedcrop_h20_t5_q10.fastq
+
+#zdaj pa pripravimo report se iz teh, chopanih sekvenc
+input_filepath="/scratch/evakrzisnik/desiree_resequencing/reads_qc/outputs/chopper/library2.fixedcrop_h20_t5_q10.fastq"
+output_base="/scratch/evakrzisnik/desiree_resequencing/reads_qc/outputs"
+
+#za chopane reade bomo izvedli enake analize kot za moje
+#predvsem nas zanima nanoqc diverziteta baz
+subfolder="nanoqc_chopped"
+output_path="$output_base"/"$subfolder"
+nanoQC "$input_filepath" -o "$output_path"
+
+subfolder="nanoplot_chopped"
+output_path="$output_base"/"$subfolder"
+NanoPlot --fastq "$input_filepath" -o "$output_path"
+
+#
+
+
+
+#path do vseh ostalih readov, ki grejo v assembly
+#/scratch/timg/desiree_seq/output/reads
+
+#ultra long ont readi stari in novi skupaj
+#oboji readi skupaj s cat, possible odzipanje

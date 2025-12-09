@@ -5,9 +5,31 @@
 *.sam
 *.gz
 
+# Fasta indices
+*.fai
+*.dict
+*.genome
+
+# Assembly intermediates
+*.gfa
+*.paf
+*.meryl
+*.hifiasm.*
+
+# QC output
+multiqc/
+*.html
+
+# Log files
+*.log
+*.out
+*.err
+
 # Ignore analysis outputs
 outputs/
 inputs/
+output/
+input/
 scratch/
 results/
 *.html
