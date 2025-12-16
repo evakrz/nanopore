@@ -1,3 +1,19 @@
+conda activate nanopack
+
+input="/scratch/evakrzisnik/desiree_resequencing/reads_qc/outputs/chopper/library2.filtered.fastq"
+output_base="/scratch/evakrzisnik/desiree_resequencing/reads_qc/outputs"
+
+subfolder="asm15_nanoplot"
+output="$output_base"/"$subfolder"
+mkdir -p $output
+NanoPlot --fastq "$input" -o "$output"
+
+subfolder="asm15_nanoqc"
+output="$output_base"/"$subfolder"
+mkdir -p $output
+nanoQC "$input" -o "$output"
+
+conda deactivate
 
 input_filepath="/scratch/evakrzisnik/desiree_resequencing/reads_qc/inputs/library2.fastq"
 
