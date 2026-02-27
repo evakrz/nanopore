@@ -40,10 +40,28 @@
 
 #backslash kot newline, veliko bolj berljiva koncna verzija komande:
 #pisi na ta nacin, ko dobis ta dolga creva od pathov, da vse fita na screen
+#dorado version: 1.1.1
 
-#/users/evakrzisnik/bin/dorado basecaller \
-#--models-directory /DKED/scratch/evakrzisnik/desiree_resequencing/dorado \ 
-#-x cuda:all \
-#-o /DKED/scratch/evakrzisnik/desiree_resequencing/dorado \ 
-#sup \
-#/DKED/scratch/timg/desiree_seq/desiree_resequencing/input/library_2/20250812_1139_MN43590_FBD50601_b6985a1a/pod5/
+/users/evakrzisnik/bin/dorado basecaller \
+--models-directory /DKED/scratch/evakrzisnik/desiree_resequencing/dorado \ 
+-x cuda:all \
+-o /DKED/scratch/evakrzisnik/desiree_resequencing/dorado \ 
+sup \
+/DKED/scratch/timg/desiree_seq/desiree_resequencing/input/library_2/20250812_1139_MN43590_FBD50601_b6985a1a/pod5/
+
+
+#februar 2026 ponovljen poskus, še en library
+curl "https://cdn.oxfordnanoportal.com/software/analysis/dorado-1.4.0-linux-x64.tar.gz" -o dorado-1.4.0-linux-x64.tar.gz
+tar -xzf dorado-1.4.0-linux-x64.tar.gz
+dorado-1.4.0-linux-x64/bin/dorado --version
+
+
+#dorado version 1.4.0
+#model info:  - downloading dna_r10.4.1_e8.2_400bps_sup@v5.2.0 with httplib
+/users/evakrzisnik/bin/dorado basecaller \
+--models-directory /DKED/scratch/evakrzisnik/desiree_resequencing/dorado \
+-x cuda:all \
+-o /DKED/scratch/evakrzisnik/desiree_resequencing/dorado \
+--emit-fastq \
+sup \
+/scratch/evakrzisnik/desiree_resequencing/dorado/inputs/ont_rawdata/input/lib_1_feb/20260223_1040_MN43590_FBF64732_56898a42/pod5

@@ -4,6 +4,8 @@
 *.bam
 *.sam
 *.gz
+*.tensor
+*.toml
 
 # Fasta indices
 *.fai
