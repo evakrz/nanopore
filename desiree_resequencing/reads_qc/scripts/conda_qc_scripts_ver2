@@ -95,3 +95,4 @@ NanoPlot --fastq "$input_filepath" -o "$output_path"
 
 #ultra long ont readi stari in novi skupaj
 #oboji readi skupaj s cat, possible odzipanje
+
