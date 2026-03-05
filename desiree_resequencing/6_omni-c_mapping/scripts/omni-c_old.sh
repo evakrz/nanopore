@@ -13,8 +13,6 @@ mkdir -p $out_base
 #_______________________________________________________________________________________________________
 # CODE
 
-#ni vec contaminants output
-#assembly outputs 4 haplotipi faste zamenjaj
 for asm_path in /scratch/evakrzisnik/desiree_resequencing/contaminants_removal/output/*.decontaminated.fa; do
 
 asm_name=$(basename -s .fa $asm_path)
@@ -73,7 +71,7 @@ for bam in $out_dir/*/*.bam
 done
 conda deactivate
 # run multiqc
-conda activate /users/timg/.conda/envs/multiqc_pairtools
+conda activate multiqc_pairtools
 cd $out_dir
 multiqc .
 conda deactivate

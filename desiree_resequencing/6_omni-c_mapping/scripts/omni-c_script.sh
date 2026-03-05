@@ -6,16 +6,40 @@
 
 # semi-fixded variables
 threads=100
-out_base=/scratch/evakrzisnik/desiree_resequencing/omni-c_mapping/output
+out_base=/scratch/evakrzisnik/desiree_resequencing/6_omni-c_mapping/output
 reads="/scratch/timg/desiree_seq/output/reads/desiree_hic_R1_raw.fastq /scratch/timg/desiree_seq/output/reads/desiree_hic_R2_raw.fastq"
 
 mkdir -p $out_base
 #_______________________________________________________________________________________________________
+# LOOP SANITY CHECK
+echo "Testing assembly loop..."
+
+count=0
+
+for asm_path in /scratch/evakrzisnik/desiree_resequencing/6_omni-c_mapping/input/*.fa; do
+  ((count++))
+
+  asm_name=$(basename "$asm_path" .fa)
+  out_dir="$out_base/$asm_name"
+  asm="$out_dir/asm.fa"
+
+  echo "Iteration $count"
+  echo "Assembly path: $asm_path"
+  echo "Assembly name: $asm_name"
+  echo "Output directory: $out_dir"
+  echo "Symlink target: $asm"
+  echo "-----------------------------------"
+done
+
+echo "Total assemblies detected: $count"
+
+
+
 # CODE
 
 #ni vec contaminants output
-#assembly outputs 4 haplotipi faste zamenjaj
-for asm_path in /scratch/evakrzisnik/desiree_resequencing/contaminants_removal/output/*.decontaminated.fa; do
+#assembly outputs 4 haplotipi faste dala symlink v omni-c inputs
+for asm_path in /scratch/evakrzisnik/desiree_resequencing/6_omni-c_mapping/input/*.fa; do
 
 asm_name=$(basename -s .fa $asm_path)
 out_dir=$out_base/$asm_name
@@ -64,9 +88,10 @@ done
 
 
 
+#i changed the for loop in the mapping, from out_dir to out_base, if it doesnt work, check folder structure after it is finished.
 # calculate bam stats
 conda activate /users/timg/.conda/envs/mapping
-for bam in $out_dir/*/*.bam
+for bam in $out_base/*/*.bam
  do
   bam_name=$(basename -s.bam $bam)
   samtools stats -@ 20 $bam > $out_dir/$bam_name.stats

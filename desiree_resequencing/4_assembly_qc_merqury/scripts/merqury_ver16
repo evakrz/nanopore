@@ -1,0 +1,111 @@
+asm_ver=16
+
+assemblies=(
+/scratch/evakrzisnik/desiree_resequencing/3_assembly/outputs/$asm_ver/$asm_ver.asm.hap_all.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/3_assembly/outputs/$asm_ver/$asm_ver.asm.hap1.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/3_assembly/outputs/$asm_ver/$asm_ver.asm.hap2.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/3_assembly/outputs/$asm_ver/$asm_ver.asm.hap3.p_ctg.fa
+/scratch/evakrzisnik/desiree_resequencing/3_assembly/outputs/$asm_ver/$asm_ver.asm.hap4.p_ctg.fa
+)
+
+outdirs=(
+${asm_ver}_p_ctg_hap_all
+${asm_ver}_p_ctg_hap1
+${asm_ver}_p_ctg_hap2
+${asm_ver}_p_ctg_hap3
+${asm_ver}_p_ctg_hap4
+)
+
+# for i in {0..10}; do
+#     echo $i
+#     asm=${assemblies[$i]}
+#     out_name=${outdirs[$i]}
+#     echo "Processing $asm with output directory $out_name"
+# done
+
+#sanity check
+echo "Number of assemblies: ${#assemblies[@]}"
+
+for ((a=0; a<${#assemblies[@]}; a++))
+do
+    echo "Iteration $a -> ${assemblies[$a]}"
+done
+
+echo "Starting loop test"
+
+for hap in 1 2 3 4
+do
+  echo "Loop iteration: hap=$hap"
+
+  echo "Activating seqkit env..."
+  conda activate /users/timg/.conda/envs/seqkit
+
+  echo "Current conda env: $CONDA_DEFAULT_ENV"
+
+  input_file="$out_dir/desiree_$asm_version.asm.hic.hap${hap}.p_ctg.fa"
+  output_file="$out_dir/$asm_version.asm.hap${hap}.p_ctg.fa"
+
+  echo "Input: $input_file"
+  echo "Output: $output_file"
+
+  # Dry run (does not modify files)
+  echo "seqkit replace -p '$' -r _hap${hap} $input_file > $output_file"
+
+  conda deactivate
+  echo "Env deactivated"
+  echo "----------------------"
+done
+
+echo "Loop finished"
+
+
+
+for ((a=0; a<${#assemblies[@]}; a++)); do
+    asm=${assemblies[$a]}
+    out_name=${outdirs[$a]}
+    assembly2=
+
+    meryl_db=/scratch/timg/desiree_asm/meryl/desiree_illumina_raw.meryl
+    out_base=/scratch/evakrzisnik/desiree_resequencing/4_assembly_qc_merqury/outputs
+    out_dir=$out_base/$out_name
+    maxcov=200
+    maxcount=15000000
+    threads=8
+    #_____________________________________________________________________________________________________________________
+    ### CODE
+    #set threads
+    OMP_NUM_THREADS=$threads
+    export OMP_NUM_THREADS
+    # comparing two assemblies
+    mkdir -p $out_dir
+    # merqury does not recognize path as output dir so you have to cd inside
+    cd $out_dir
+
+    conda activate merqury
+    merqury.sh $meryl_db \
+        ${assemblies[$a]} \
+        $assembly2 \
+        merqury > \
+        merqury_$out_name.log
+
+    for i in $(basename -s .qv "$out_dir"/*.qv)
+    do
+    Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+    -f "$i".spectra-cn.hist \
+    -o "$i".spectra-cn \
+    -z "$i".only.hist \
+    -m $maxcov \
+    -n $maxcount
+    done
+
+    Rscript /users/evakrzisnik/.conda/envs/merqury/share/merqury/plot/plot_spectra_cn.R \
+        -f merqury.spectra-asm.hist \
+        -o merqury.spectra-asm \
+        -z merqury.dist_only.hist \
+        -m $maxcov \
+        -n $maxcount
+    conda deactivate
+
+
+    echo "Processing $asm with output directory $out_name"
+done
