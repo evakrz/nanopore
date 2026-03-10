@@ -93,6 +93,25 @@ mv $out_dir/yahs_jbat.hic.part $out_dir/yahs_jbat.hic
 #_______________________________________________________________________________________________________
 
 
+# CODE iz timg manual jbat review dela
+
+#outdir je nek review compiling lokacija
+mkdir $out_dir
+conda activate yahs
+juicer post \
+-o $out_dir/yahs_jbat.$review_id \
+$in_dir/yahs_jbat.$review_id.assembly \
+$yahs_dir/yahs_jbat.liftover.agp \
+$assembly
+conda deactivate
+# link to plots dir
+#mkdir /scratch/timg/desiree_scaffolding/input/assemblies/$assembly_name
+ln -s $out_dir/yahs_jbat.$review_id.FINAL.fa \
+/scratch/timg/desiree_scaffolding/input/assemblies/$assembly_name/$assembly_name.yahs_jbat.$review_id.fa
+#__________________________________________________________________________________________________
+
+
+
 #naprej je leftover from old code?? run to HERE
 
 
@@ -263,6 +282,8 @@ $out_dir/yahs_jbat.hic.part <(cat $out_dir/yahs_jbat.log | grep PRE_C_SIZE | awk
 conda deactivate
 mv $out_dir/yahs_jbat.hic.part $out_dir/yahs_jbat.hic
 This worked, it would probably also work with newer juicer tools version, just needs more ram
+
+
 
 
 
