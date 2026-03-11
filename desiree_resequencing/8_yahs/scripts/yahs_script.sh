@@ -96,7 +96,15 @@ mv $out_dir/yahs_jbat.hic.part $out_dir/yahs_jbat.hic
 # CODE iz timg manual jbat review dela
 
 #outdir je nek review compiling lokacija
-mkdir $out_dir
+review_id=0
+hap_num=2
+
+out_dir=/scratch/evakrzisnik/desiree_resequencing/10_scaf_review/output/$hap_num
+in_dir=/scratch/evakrzisnik/desiree_resequencing/10_scaf_review/input/$hap_num
+
+mkdir -p $in_dir
+mkdir -p $out_dir
+
 conda activate yahs
 juicer post \
 -o $out_dir/yahs_jbat.$review_id \
