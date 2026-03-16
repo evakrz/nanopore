@@ -1,9 +1,11 @@
 # CODE iz timg manual jbat review dela
 
 #outdir je nek review compiling lokacija
-# VARIABLES
-hap_num=hap2
-review_id=review0
+# VARIABLES: set to hapX and reviewY, according to the .review.assembly file you wish to turn into FASTA
+hap_num=hap4
+review_id=review1
+
+#IMPORTANT: SCP THE REVIEW.ASSEMBLY FILE FROM LOCAL COMPUTER TO IN_DIR
 
 assembly_name=asm16
 
