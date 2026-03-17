@@ -3,7 +3,7 @@
 #outdir je nek review compiling lokacija
 # VARIABLES: set to hapX and reviewY, according to the .review.assembly file you wish to turn into FASTA
 hap_num=hap4
-review_id=review1
+review_id=review4
 
 #IMPORTANT: SCP THE REVIEW.ASSEMBLY FILE FROM LOCAL COMPUTER TO IN_DIR
 
