@@ -24,3 +24,21 @@ for hap in 1 2 3 4; do
     done
 done
 conda deactivate
+
+
+#rabimo .fai za vse haplogroups
+in_base=/scratch/evakrzisnik/desiree_resequencing/15_longread_mapping/inputs
+#/DKED/scratch/evakrzisnik/desiree_resequencing/15_longread_mapping/inputs/De_v1.hapgroup_a.fa
+conda activate seqkit
+#De_v1.chrOnly.ver1.renamed.fa
+#De_v2.chrOnly.ver2.renamed.fa
+
+for fa in "$in_base"/*.hapgroup*.fa; do
+    [ -e "$fa" ] || continue
+    echo "Indexing: $fa"
+    seqkit faidx "$fa"
+done
+
+conda deactivate
+
+echo "Indexed $(ls $in_base/*.hapgroup*.fa.fai | wc -l) files"
