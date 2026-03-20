@@ -157,6 +157,9 @@ ln -s /scratch/evakrzisnik/desiree_resequencing/11_agp_editing/outputs/De_v2.chr
 
 ln -s /scratch/evakrzisnik/desiree_resequencing/11_agp_editing/outputs/De_v1.chrOnly.ver1.fa $dgenies_dir/De_v1.chrOnly.ver1.fa
 
+dgenies_dir=/scratch/evakrzisnik/desiree_resequencing/7_dgenies/inputs/manual_scaffolds
+ln -s /scratch/evakrzisnik/desiree_resequencing/11_agp_editing/outputs/De_v1v2.chrOnly.ordered.fa.gz $dgenies_dir/De_v1v2.chrOnly.ordered.fa.gz
+
 conda deactivate
 
 
@@ -164,6 +167,7 @@ seqkit stats /scratch/evakrzisnik/desiree_resequencing/11_agp_editing/outputs/De
 seqkit seq -n /scratch/evakrzisnik/desiree_resequencing/11_agp_editing/outputs/De_v1v2.chrOnly.ordered.fa | wc -l
 seqkit seq -n /scratch/evakrzisnik/desiree_resequencing/11_agp_editing/outputs/De_v1v2.chrOnly.ordered.fa | sort | uniq -d
 
+gzip /scratch/evakrzisnik/desiree_resequencing/11_agp_editing/outputs/De_v1v2.chrOnly.ordered.fa
 #PREVIOUS LOOP VERSIONS
 
 # out=$out_dir/De_v2.chrOnly.fa

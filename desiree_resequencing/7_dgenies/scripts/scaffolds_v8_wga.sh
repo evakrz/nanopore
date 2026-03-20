@@ -21,7 +21,7 @@ conda activate dgenies
 DGENIES_PORT=6003
 dgenies run --port $DGENIES_PORT --no-browser
 #na tej tocki detachas
-
+dgenies run -h
 
 screen -R scaffold_http
 cd /scratch/evakrzisnik/desiree_resequencing/8_yahs/output/
@@ -51,3 +51,5 @@ ssh -L 6003:localhost:6003 -L 6006:localhost:6006 -L 6007:localhost:6007 evakrzi
 ssh -L 6001:localhost:6001 evakrzisnik@egret.nib.si 
 
 #primerjali bomo vsak haplotip scaffoldov s chronly v8 kot target
+
+gzip

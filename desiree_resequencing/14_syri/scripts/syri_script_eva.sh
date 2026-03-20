@@ -6,6 +6,30 @@ printf "%s,%s\n" \
 > /scratch/evakrzisnik/desiree_resequencing/14_syri/inputs/De_v2_haps.csv
 
 
+conda create -n syri \
+  -c conda-forge -c bioconda \
+  --strict-channel-priority \
+  python=3.10 \
+  syri \
+  plotsr \
+  minimap2 \
+  samtools
+
+#to sem naredila, zgoraj je za vsak slucaj, ce ne bo delalo
+conda create -n syri -c bioconda -c conda-forge syri
+
+#nekaj je narobe s python verzijo, bomo naredili nov env s staro, to je koncno dalo .out files
+conda create -n syri_old \
+  -c conda-forge -c bioconda \
+  --strict-channel-priority \
+  python=3.10 \
+  pandas=1.5 \
+  numpy=1.24 \
+  syri \
+  minimap2 \
+  samtools \
+  plotsr
+
 # run 1 De haps 1-4
 csv=/scratch/evakrzisnik/desiree_resequencing/14_syri/inputs/De_v2_haps.csv
 threads=60
@@ -41,7 +65,8 @@ done
 conda deactivate
 
 # Run syri on pairs
-conda activate /users/timg/.conda/envs/syri
+#conda activate /users/timg/.conda/envs/syri
+conda activate syri_old
 for ((i=0; i<${#names[@]}-1; i++)); do
 syri \
 -c "${names[i]}"_"${names[i+1]}".bam \
@@ -50,22 +75,37 @@ syri \
 done
 
 # plot
+# plotsr \
+# --sr hap1_hap2syri.out \
+# --sr hap2_hap3syri.out \
+# --sr hap3_hap4syri.out \
+# --genomes genomes.txt \
+# --tracks tracks.txt \
+# -o plot_anno.png
+
 plotsr \
---sr hap1_hap2syri.out \
---sr hap2_hap3syri.out \
---sr hap3_hap4syri.out \
---genomes genomes.txt \
---tracks tracks.txt \
--o plot_anno.png
+  --sr hap1_hap2syri.out \
+  --sr hap2_hap3syri.out \
+  --sr hap3_hap4syri.out \
+  --genomes genomes.txt \
+  -o plot_anno.png
 
 $genomes.txt
+#file	name	tags
+# hap1.fa	hap1	lw:1.5;lc:#384259
+# hap2.fa	hap2	lw:1.5;lc:#F73859
+# hap3.fa	hap3	lw:1.5;lc:#7AC7C4
+# hap4.fa	hap4	lw:1.5;lc:#C4EDDE
+
+# lc = line colour
+
+cat > genomes.txt <<'EOF'
 #file	name	tags
 hap1.fa	hap1	lw:1.5;lc:#384259
 hap2.fa	hap2	lw:1.5;lc:#F73859
 hap3.fa	hap3	lw:1.5;lc:#7AC7C4
 hap4.fa	hap4	lw:1.5;lc:#C4EDDE
-
-lc = line colour
+EOF
 
 ###tega nisem pognala spodaj, ker jaz nimam gff fileov
 # add tracks

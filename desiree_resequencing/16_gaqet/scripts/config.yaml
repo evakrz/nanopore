@@ -1,0 +1,22 @@
+ID: "SpeciesName"
+Assembly: "/path/to/assembly.fasta"
+Annotation: "/path/to/annotation.gff3"
+Basedir: "/path/to/GAQET/results"
+Threads: 40
+Analysis:
+  - AGAT
+  - BUSCO
+  - PSAURON
+#  - DETENGA
+  - OMARK
+  - PROTHOMOLOGY
+#database ostane isti
+OMARK_db: "/scratch/timg/desiree_annotation/omark/LUCA.h5"
+OMARK_taxid: 5507
+BUSCO_lineages:
+  -  hypocreales_odb10
+#tele trembl in swissprot diamond filese naredim jaz in grejo sem
+PROTHOMOLOGY_tags:
+  - TREMBL: "/scratch/timg/fusarium/comparative_genomics/data/uniprot/uniprot_trembl_fungi.dmnd"
+  - SWISSPROT: "/scratch/timg/fusarium/comparative_genomics/data/uniprot/uniprot_swissprot_fungi.dmnd"
+#DETENGA_db: "rexdb-plant"
