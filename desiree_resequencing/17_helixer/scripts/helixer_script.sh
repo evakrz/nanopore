@@ -1,4 +1,4 @@
-in_base=/scratch/evakrzisnik/desiree_resequencing/16_helixer/inputs
+in_base=/scratch/evakrzisnik/desiree_resequencing/17_helixer/inputs
 
 mkdir -p $in_base
 

@@ -12,11 +12,17 @@ Analysis:
   - PROTHOMOLOGY
 #database ostane isti
 OMARK_db: "/scratch/timg/desiree_annotation/omark/LUCA.h5"
-OMARK_taxid: 5507
+#OMARK_taxid: 5507
+OMARK_taxid: 4113
 BUSCO_lineages:
-  -  hypocreales_odb10
+#tole spremenimo na taxa od krompirja
+ # -  hypocreales_odb10
+  - solanales_odb10
 #tele trembl in swissprot diamond filese naredim jaz in grejo sem
 PROTHOMOLOGY_tags:
-  - TREMBL: "/scratch/timg/fusarium/comparative_genomics/data/uniprot/uniprot_trembl_fungi.dmnd"
-  - SWISSPROT: "/scratch/timg/fusarium/comparative_genomics/data/uniprot/uniprot_swissprot_fungi.dmnd"
+  #- TREMBL: "/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/uniprot_trembl_plants.dmnd"
+  - SWISSPROT: "/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/uniprot_swissprot_plants.dmnd"
+# PROTHOMOLOGY_tags:
+  # - TREMBL: "/scratch/timg/fusarium/comparative_genomics/data/uniprot/uniprot_trembl_fungi.dmnd"
+  # - SWISSPROT: "/scratch/timg/fusarium/comparative_genomics/data/uniprot/uniprot_swissprot_fungi.dmnd"
 #DETENGA_db: "rexdb-plant"
