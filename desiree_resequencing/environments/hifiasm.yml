@@ -1,0 +1,6 @@
+name: hifiasm
+channels:
+  - defaults
+dependencies:
+  - hifiasm
+prefix: /users/evakrzisnik/.conda/envs/hifiasm

@@ -1,0 +1,7 @@
+name: merqury
+channels:
+  - defaults
+dependencies:
+  - merqury
+  - openjdk=11
+prefix: /users/evakrzisnik/.conda/envs/merqury

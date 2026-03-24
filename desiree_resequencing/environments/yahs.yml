@@ -1,0 +1,11 @@
+name: yahs
+channels:
+  - defaults
+dependencies:
+  - libgomp==13.1.0=he5830b7_0
+  - libzlib==1.2.13=hd590300_5
+  - libgcc-ng==13.1.0=he5830b7_0
+  - _openmp_mutex==4.5=2_gnu
+  - _libgcc_mutex==0.1=conda_forge
+  - yahs==1.2a.2=he4a0461_2
+prefix: /users/evakrzisnik/.conda/envs/yahs

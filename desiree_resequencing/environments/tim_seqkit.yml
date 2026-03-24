@@ -1,0 +1,6 @@
+name: /users/timg/.conda/envs/seqkit
+channels:
+  - defaults
+dependencies:
+  - seqkit
+prefix: /users/timg/.conda/envs/seqkit

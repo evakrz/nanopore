@@ -1,0 +1,6 @@
+name: quast
+channels:
+  - defaults
+dependencies:
+  - quast
+prefix: /users/evakrzisnik/.conda/envs/quast

@@ -1,0 +1,4 @@
+# packages in environment at /users/timg/.conda/envs/seqkit:
+#
+# Name                    Version                   Build  Channel
+seqkit                    2.8.0                h9ee0642_1    bioconda

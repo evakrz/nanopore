@@ -1,0 +1,9 @@
+name: nanopack
+channels:
+  - defaults
+dependencies:
+  - chopper
+  - nanoqc
+  - nanoplot
+  - cramino
+prefix: /users/evakrzisnik/.conda/envs/nanopack

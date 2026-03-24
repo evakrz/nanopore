@@ -1,0 +1,6 @@
+name: /users/timg/.conda/envs/dos2unix
+channels:
+  - defaults
+dependencies:
+  - dos2unix
+prefix: /users/timg/.conda/envs/dos2unix

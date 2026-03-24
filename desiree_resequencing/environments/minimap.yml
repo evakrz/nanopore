@@ -1,0 +1,6 @@
+name: minimap
+channels:
+  - defaults
+dependencies:
+  - minimap2
+prefix: /users/evakrzisnik/.conda/envs/minimap

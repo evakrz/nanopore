@@ -1,0 +1,16 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+@EXPLICIT
+https://repo.anaconda.com/pkgs/main/linux-64/_libgcc_mutex-0.1-main.conda
+https://repo.anaconda.com/pkgs/main/noarch/kernel-headers_linux-64-4.18.0-h3108a97_1.conda
+https://repo.anaconda.com/pkgs/main/linux-64/libgomp-15.2.0-h4751f2c_7.conda
+https://repo.anaconda.com/pkgs/main/noarch/tzdata-2025b-h04d1e81_0.conda
+https://repo.anaconda.com/pkgs/main/linux-64/_openmp_mutex-5.1-1_gnu.conda
+https://repo.anaconda.com/pkgs/main/noarch/sysroot_linux-64-2.28-h3108a97_1.conda
+https://repo.anaconda.com/pkgs/main/linux-64/libgcc-15.2.0-h69a1729_7.conda
+https://repo.anaconda.com/pkgs/main/linux-64/libgcc-ng-15.2.0-h166f726_7.conda
+https://repo.anaconda.com/pkgs/main/linux-64/libstdcxx-15.2.0-h39759b7_7.conda
+https://repo.anaconda.com/pkgs/main/linux-64/libzlib-1.3.1-hb25bd0a_0.conda
+https://conda.anaconda.org/bioconda/linux-64/k8-1.2-he8db53b_6.tar.bz2
+https://conda.anaconda.org/bioconda/linux-64/minimap2-2.30-h577a1d6_0.tar.bz2

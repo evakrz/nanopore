@@ -1,0 +1,6 @@
+name: seqkit
+channels:
+  - defaults
+dependencies:
+  - seqkit
+prefix: /users/evakrzisnik/.conda/envs/seqkit

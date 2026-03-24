@@ -1,0 +1,6 @@
+name: /users/timg/.conda/envs/gfatools
+channels:
+  - defaults
+dependencies:
+  - gfatools
+prefix: /users/timg/.conda/envs/gfatools

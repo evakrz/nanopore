@@ -1,0 +1,6 @@
+name: dgenies
+channels:
+  - defaults
+dependencies:
+  - dgenies
+prefix: /users/evakrzisnik/.conda/envs/dgenies

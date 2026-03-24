@@ -1,0 +1,12 @@
+name: syri_old
+channels:
+  - defaults
+dependencies:
+  - numpy=1.24
+  - minimap2
+  - plotsr
+  - syri
+  - python=3.10
+  - samtools
+  - pandas=1.5
+prefix: /users/evakrzisnik/.conda/envs/syri_old

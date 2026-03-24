@@ -1,0 +1,6 @@
+name: /users/timg/.conda/envs/gaqet
+channels:
+  - defaults
+dependencies:
+  - gaqet
+prefix: /users/timg/.conda/envs/gaqet
