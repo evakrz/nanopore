@@ -4,14 +4,6 @@ conda activate agat
 agat_convert_sp_gxf2gxf.pl --help
 conda deactivate
 
-conda create -n gaqet_eva python=3.10 -y
-conda activate gaqet_eva
-
-conda install -c conda-forge -c bioconda \
-  agat busco diamond gffread seqtk psauron omamer omark -y
-
-
-/users/timg/.conda/envs/gaqet/lib/python3.10/site-packages/src/agat.py
 
 # prepare fasta files
 in_base=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/
@@ -39,6 +31,13 @@ for gff in /scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/hap*_helixe
     echo "Converting $gff -> $out"
     agat_convert_sp_gxf2gxf.pl -g "$gff" -o "$out"
 done
+#we had an issue with a non gzipped hap1 that didn't have chromosomes labeled correctly. 
+#always use gzipped files when submitting to helixer
+#we generate a gff3 from this hap additionally and we rerun gaqet
+gff=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/hap1_helixer.gff
+out="${gff%.gff}.agat.gff3"
+echo "Converting $gff -> $out"
+agat_convert_sp_gxf2gxf.pl -g "$gff" -o "$out"
 
 conda deactivate   
 
@@ -106,12 +105,14 @@ conda deactivate
 #Fo.4287_011131	Feature inside gap of Ns
 
 #my version
+#run gaqet from here when you have all gff3 files ready
 
 base_dir=/scratch/evakrzisnik/desiree_resequencing/16_gaqet
 in_base=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs
 out_base=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/outputs
 yaml=$base_dir/scripts/config.yaml
 #23. 3. gaqet runa samo s swissprot
+#od 24. 3. imamo tudi trembl v config, to bo final verzija
 mkdir -p "$out_base"
 
 for gff in "$in_base"/hap*_helixer.agat.gff3; do
@@ -178,6 +179,8 @@ GAQET \
 
 conda deactivate
 
+
+### tests of the agat pipeline, do not use in main gaqet function
 conda activate agat
 
 mkdir /scratch/evakrzisnik/desiree_resequencing/16_gaqet/outputs/test_split

@@ -1,13 +1,11 @@
-
 base_dir=/scratch/evakrzisnik/desiree_resequencing/16_gaqet
 in_base=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs
 out_base=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/outputs
 yaml=$base_dir/scripts/config.yaml
 #23. 3. gaqet runa samo s swissprot
-#24. 3. imamo tudi ze trembl, je odkomentiran v config
+#od 24. 3. imamo tudi trembl v config, to bo final verzija
 mkdir -p "$out_base"
 
-#run on gff3 files, generated from gff
 for gff in "$in_base"/hap*_helixer.agat.gff3; do
 
     hap=$(basename "$gff" | sed 's/_helixer\.agat\.gff3$//')
