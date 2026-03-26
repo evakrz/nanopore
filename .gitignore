@@ -26,6 +26,7 @@ multiqc/
 *.log
 *.out
 *.err
+agat_log_*/
 
 # Ignore analysis outputs
 outputs/

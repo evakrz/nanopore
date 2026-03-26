@@ -206,3 +206,75 @@ agat_sp_separate_by_record_type.pl \
 # -i $dir/$tsv \
 # -o $dir/gaqet_results_merged.png
 # conda deactivate
+
+#tim ran with his own env
+#i want to copy outputs
+outputs_tmp=/scratch/timg/tmp/gaqet/outputs
+
+#create a version 2 merged haps gff
+out=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/De_v2_merged_helixer.gff
+
+# start with hap1 (keep everything)
+cat /scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/hap1_helixer.gff > "$out"
+
+# append hap2–hap4, skipping first 3 lines
+for i in 2 3 4; do
+    tail -n +4 /scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/hap${i}_helixer.gff >> "$out"
+done
+
+#maybe we do this in timg tmp where both versions already are
+#permission denied
+out=/DKED/scratch/timg/tmp/gaqet/inputs/De_v2_merged_helixer.gff
+
+# start with hap1 (keep everything)
+cat /DKED/scratch/timg/tmp/gaqet/inputs/hap1_helixer.gff > "$out"
+
+# append hap2–hap4, skipping first 3 lines
+for i in 2 3 4; do
+    tail -n +4 /DKED/scratch/timg/tmp/gaqet/inputs/hap${i}_helixer.gff >> "$out"
+done
+
+#this is why we create version 1 copies in my inputs and fix the chromosome names
+in_base=/DKED/scratch/timg/tmp/gaqet/inputs
+out_base=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs
+
+mkdir -p "$out_base"
+
+for i in 1 2 3 4; do
+    in_gff="$in_base/De_v1_hap${i}_chrs_helixer.agat.gff"
+    out_gff="$out_base/De_v1_hap${i}_helixer.renamed.gff"
+
+    awk -v hap="hap${i}" 'BEGIN{FS=OFS="\t"}
+    /^#/ {print; next}
+    {
+        if ($1 ~ /^chr_[0-9]+$/) {
+            n = substr($1, 5)
+            $1 = sprintf("chr_%02d_v1_%s", n, hap)
+        }
+        print
+    }' "$in_gff" > "$out_gff"
+done
+
+#now merge them into one gff
+merged=/scratch/evakrzisnik/desiree_resequencing/16_gaqet/inputs/De_v1_merged_helixer.gff
+
+cat "$out_base/De_v1_hap1_helixer.renamed.gff" > "$merged"
+
+for i in 2 3 4; do
+    tail -n +4 "$out_base/De_v1_hap${i}_helixer.renamed.gff" >> "$merged"
+done
+
+conda env create \
+  -f /DKED/scratch/evakrzisnik/desiree_resequencing/environments/tim_gaqet.yml \
+  -n gaqet
+#the previous command was not enough to recreate the env
+conda create -n gaqet --clone /users/timg/.conda/envs/gaqet
+
+#check if the gff typo fix got cloned in our env
+conda activate gaqet
+python -c "import agat; print(agat.__file__)"
+grep '\-gff' "$(python -c "import agat; print(agat.__file__)")"
+
+#fix the gff typo that tim fixed in his own env
+find /users/evakrzisnik/.conda/envs/gaqet/lib -path "*/site-packages/src/agat.py" \
+  -exec sed -i 's/agat_sp_keep_longest_isoform.pl -gff /agat_sp_keep_longest_isoform.pl --gff /' {} +
